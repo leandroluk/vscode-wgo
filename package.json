@@ -1,0 +1,104 @@
+{
+  "name": "vscode-wgo",
+  "displayName": "VSCode WGO",
+  "description": "Hot reload debugging for Go using wgo + Delve without losing breakpoints",
+  "version": "0.0.1",
+  "publisher": "LeandroSantiagoGomes",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Debuggers"
+  ],
+  "main": "./out/extension.js",
+  "activationEvents": [
+    "workspaceContains:**/go.mod",
+    "onLanguage:go"
+  ],
+  "contributes": {
+    "configuration": {
+      "properties": {
+        "vscode-wgo.program": {
+          "type": "string",
+          "default": "./cmd",
+          "description": "Caminho para o pacote principal (entrypoint) da aplicação Go."
+        },
+        "vscode-wgo.output": {
+          "type": "string",
+          "default": "./.tmp/app",
+          "description": "Caminho do binário de saída gerado pelo build."
+        },
+        "vscode-wgo.port": {
+          "type": "number",
+          "default": 40000,
+          "description": "Porta usada pelo Delve (headless)."
+        },
+        "vscode-wgo.poll": {
+          "type": "string",
+          "default": "500ms",
+          "description": "Intervalo de polling para o watcher (ex.: 500ms, 1s)."
+        },
+        "vscode-wgo.watchDirs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "./cmd",
+            "./internal"
+          ],
+          "description": "Diretórios observados para hot reload."
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "vscode-wgo.start",
+        "title": "Start VSCode WGO",
+        "icon": "$(play)"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "vscode-wgo.start",
+        "key": "ctrl+alt+d",
+        "when": "editorLangId == go"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "vscode-wgo.start",
+          "when": "resourceLangId == go",
+          "group": "navigation"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package",
+    "test": "echo \"No tests yet\"",
+    "lint": "eslint . --fix"
+  },
+  "devDependencies": {
+    "@eslint/js": "9.35.0",
+    "@types/node": "24.3.1",
+    "@types/vscode": "^1.80.0",
+    "@typescript-eslint/eslint-plugin": "8.42.0",
+    "@vscode/vsce": "3.6.0",
+    "eslint": "9.35.0",
+    "eslint-config-prettier": "10.1.8",
+    "eslint-plugin-n": "17.21.3",
+    "eslint-plugin-prettier": "5.5.4",
+    "globals": "16.3.0",
+    "jiti": "2.5.1",
+    "typescript": "5.9.2",
+    "typescript-eslint": "8.42.0"
+  },
+  "dependencies": {
+    "chokidar": "4.0.3"
+  }
+}
